@@ -1,0 +1,542 @@
+@media only screen and (min-width: 601px) {
+  .container {
+    width: 95%;
+  }
+}
+
+.container {
+  max-width: unset;
+}
+body {
+  font-size: 18px;
+}
+
+/* Set theme color */
+.btn,
+.btn-floating {
+  background-color: #1565c0;
+}
+.page-footer,
+.nav-wrapper,
+.statusbar,
+.nav-content {
+  background-color: white;
+}
+.input-field,
+.input-field > label,
+.input-field > .material-icons,
+.dropdown-content > li > a,
+.tooltip > .material-icons,
+label > span,
+.secondary-content > .material-icons {
+  color: #1a237e;
+  /* font-weight: bold; */
+}
+.tabs.tabs-transparent .tab a,
+nav ul a {
+  /* font-weight: bold; */
+  color: black;
+}
+.primary-text {
+  color: #1a237e;
+}
+a {
+  color: #2b36aa;
+}
+
+.markdown ul {
+  padding-left: 20px;
+}
+.markdown ul > li {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 950;
+}
+
+/* styles for '...' */
+.block-with-text {
+  /* hide text if it more than N lines  */
+  overflow: hidden;
+  /* for set '...' in absolute position */
+  position: relative;
+  /* use this value to count block height */
+  line-height: 1.2em;
+  /* max-height = line-height (1.2) * lines max number (3) */
+  max-height: 3.6em;
+  /* fix problem when last visible word doesn't adjoin right side  */
+  text-align: justify;
+
+  /* */
+  margin-right: -1em;
+  padding-right: 1em;
+}
+.block-with-text:before {
+  /* points in the end */
+  content: '...';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of block */
+  right: 0;
+  bottom: 0;
+}
+.block-with-text:after {
+  /* points in the end */
+  content: '';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of text */
+  right: 0;
+  width: 1em;
+  /* set width and height */
+  height: 1em;
+  margin-top: 0.2em;
+  background: white;
+}
+.sidenav {
+  top: 66px;
+}
+.buttons a {
+  margin: 5px;
+}
+
+/* print styles */
+@media print {
+  html,
+  body {
+    font-size: 14px;
+  }
+  body {
+    margin: 0;
+    color: #000;
+    background-color: #fff;
+  }
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+  }
+  .leaflet-container,
+  img,
+  pre,
+  blockquote {
+    page-break-inside: avoid;
+    page-break-before: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-after: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-inside: avoid; /* or 'auto' */
+  }
+  main::after {
+    content: 'Copyright DRIVER+';
+    display: block;
+    text-align: center;
+  }
+  .do-not-print,
+  header,
+  footer,
+  aside,
+  nav,
+  form,
+  iframe,
+  .menu,
+  .hero,
+  .adslot {
+    display: none;
+  }
+}
+
+.margin-top7 {
+  margin-top: 7px;
+}
+.inline {
+  display: inline-block;
+  margin: 0 1rem;
+}
+ul.list-inline li {
+  display: inline;
+}
+ul.menu-buttons > li {
+  margin: 5px 0;
+}
+ul.menu-buttons > li > a {
+  width: 100%;
+}
+ul.questionnaire-nav {
+  width: 100%;
+  text-align: center;
+}
+ul.questionnaire-nav > li {
+  margin: 0 10px;
+}
+ul.questionnaire-nav > li > a {
+  width: 25%;
+}
+.markdown p {
+  color: black;
+  font-weight: normal;
+}
+.markdown.squeeze p {
+  margin: 0;
+}
+
+.repeat-list .pagination {
+  margin: 0;
+}
+
+.repeat-list .assessment-plugin {
+  margin: 0 10px;
+}
+
+.incident-view {
+  margin-bottom: 0;
+  position: absolute;
+  top: 65px;
+  left: -10px;
+  width: 100vw;
+}
+.card-panel {
+  cursor: pointer;
+  padding: 0 20px;
+  margin: 0.5rem 0 0.5rem 0;
+}
+.card-panel.xl {
+  height: 41.5vh;
+}
+.card-panel.large {
+  height: 200px;
+}
+.card-panel.medium {
+  height: 125px;
+}
+.card-panel.small {
+  height: 75px;
+}
+.widget {
+  position: relative;
+}
+.widget ul {
+  margin: 0px;
+}
+.widget-link {
+  display: none;
+}
+.widget:hover .widget-link {
+  display: block;
+}
+.bold {
+  font-weight: bold;
+}
+.subject {
+  position: absolute;
+  width: 42px;
+  /* height: 42px; */
+  overflow: hidden;
+  left: 15px;
+  display: inline-block;
+  vertical-align: middle;
+}
+ul.collection.objects,
+ul.collection.subjects {
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+ul.updates {
+  max-height: 70px;
+  overflow-y: auto;
+}
+
+ul.measures {
+  max-height: 170px;
+  overflow-y: auto;
+}
+
+li.collection-item:first-child {
+  background-color: white; /* should be the same as the background color behind the list */
+  position: fixed;
+}
+
+/* Begin scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Eind scrollbar */
+
+.radio {
+  margin-top: 2rem;
+}
+.material-placeholder {
+  z-index: 1999;
+}
+.materialbox-overlay {
+  z-index: 2000;
+}
+.incident-view .leaflet-container {
+  height: 200px !important;
+}
+#map-page .leaflet-container {
+  width: 100vw;
+  margin-left: -130px;
+  margin-bottom: -65px;
+  height: 91vh !important;
+}
+
+.material-icons.hoverable {
+  text-align: center;
+  cursor: pointer;
+}
+.material-icons.hoverable:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.comment {
+  background-color: lightgrey;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+
+.comment-text p {
+  margin: 0;
+}
+
+/** Tooltips */
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext {
+  width: 150px;
+  margin-left: -75px; /* Use half of the width to center the tooltip */
+  top: 100%;
+  left: 50%;
+}
+/** End Tooltips */
+
+.user-page {
+  margin-top: 10px;
+}
+/* .user-card .card .card-title {
+  width: 70%;
+} */
+.multiple-choice-question label span {
+  color: #000000;
+}
+
+/**
+Horizontal scrollable list of cards
+Source: https://codepen.io/dannievinther/pen/vVydZJ
+*/
+:root {
+  --gutter: 10px;
+}
+
+.hs-container {
+  /* padding: var(--gutter) 0; */
+  width: 100%;
+  height: 100%;
+  /* display: grid;
+  place-items: center; */
+  grid-gap: var(--gutter) 0;
+  grid-template-columns: var(--gutter) 1fr var(--gutter);
+  align-content: start;
+}
+
+.hs-container > * {
+  grid-column: 2 / -2;
+}
+
+.hs-container > .full {
+  grid-column: 1 / -1;
+}
+
+.hs-header {
+  padding-top: 10px;
+  margin-bottom: -25px;
+}
+
+.hs > li,
+.item {
+  scroll-snap-align: center;
+  padding: calc(var(--gutter) / 2 * 1.5);
+  /* padding-bottom: 10px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hs {
+  display: grid;
+  grid-gap: calc(var(--gutter) / 2);
+  grid-template-columns: 0px;
+  grid-template-rows: minmax(150px, 1fr);
+  grid-auto-flow: column;
+  grid-auto-columns: calc(24% - var(--gutter) * 2);
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  padding-bottom: calc(0.1 * var(--gutter));
+  margin-bottom: calc(-0.25 * var(--gutter));
+}
+
+.hs:before,
+.hs:after {
+  content: '';
+  width: 10px;
+}
+
+.hs-item {
+  width: 100%;
+}
+
+.section-wrapper {
+  color: #777;
+  margin-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.14);
+  -webkit-transition: margin 0.25s ease;
+  transition: margin 0.25s ease;
+}
+
+img.thumbnail {
+  width: auto;
+  height: 100%;
+  max-height: 20vh;
+  margin: 0 auto;
+}
+
+.sidenav {
+  width: 250px;
+}
+
+ul.person-details > li > i.material-icons {
+  vertical-align: middle;
+  margin: 3px 10px 3px 0;
+}
+
+ul.projects > li {
+  margin: 4px 0;
+}
+
+ul.projects > li > span.project-id {
+  margin-right: 5px;
+}
+
+.collapsible > li:first-child .collapsible-header span.badge {
+  margin-left: 10px;
+}
+
+/* For the options' label */
+.input-field.options > label {
+  top: -2.5rem;
+}
+.input-field.options {
+  margin-top: 3rem;
+}
+
+.muf-rating {
+  width: 100%;
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.muf-rating > .label {
+  width: 50%;
+}
+.muf-rating > .radios {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+.muf-rating > .radios > label {
+  display: inline-block;
+  padding: 0 0.1rem 1rem 0.1rem;
+  text-align: center;
+}
+.muf-rating > .radios > label > input[type='radio'] {
+  opacity: 1;
+}
+
+.condensed .input-field {
+  margin: 0 auto;
+}
+
+.assessment-plugin.section {
+  padding: 0;
+}
+.inline-icon {
+  vertical-align: bottom;
+  /* font-size: 20px !important; */
+}
+
+.margins {
+  margin: 10px;
+}
+
+.overview .capability {
+  margin-right: 2rem;
+  display: flex;
+  width: 100%;
+  white-space: nowrap;
+}
+.overview .capability .name {
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.evaluation-page .row,
+.development-page .row,
+.assessment-page .row {
+  margin-bottom: 0;
+}
