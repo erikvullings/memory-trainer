@@ -5,7 +5,7 @@ import background from '../assets/background.jpg';
 import { dashboardSvc, MeiosisComponent } from '../services';
 import { Dashboards } from '../models';
 import { formatDate } from '../utils';
-import { DataSet } from '../models/data-set';
+import { DataSet, emptyDataSet } from '../models/data-set';
 
 export const HomePage: MeiosisComponent = () => {
   const readerAvailable = window.File && window.FileReader && window.FileList && window.Blob;
@@ -22,8 +22,9 @@ export const HomePage: MeiosisComponent = () => {
       try {
         const decompressed = lz.decompressFromEncodedURIComponent(model);
         if (!decompressed) return;
-        const catModel = JSON.parse(decompressed);
-        saveModel(catModel);
+        const dsModel = JSON.parse(decompressed);
+        console.log(dsModel);
+        saveModel(dsModel);
         changePage(Dashboards.TRAIN);
       } catch (err) {
         console.error(err);
@@ -75,10 +76,7 @@ export const HomePage: MeiosisComponent = () => {
                 'data:text/json;charset=utf-8,' +
                 encodeURIComponent(JSON.stringify({ ...dsModel, version }, null, 2));
               dlAnchorElem.setAttribute('href', dataStr);
-              dlAnchorElem.setAttribute(
-                'download',
-                `${formatDate()}_v${version}_capability_model.json`
-              );
+              dlAnchorElem.setAttribute('download', `${formatDate()}_v${version}_word_model.json`);
               dlAnchorElem.click();
             },
           }),
@@ -92,6 +90,7 @@ export const HomePage: MeiosisComponent = () => {
                 const fileInput = document.getElementById('selectFiles') as HTMLInputElement;
                 fileInput.onchange = () => {
                   if (!fileInput) return;
+                  console.log('Loading');
                   const files = fileInput.files;
                   if (files && files.length <= 0) {
                     return;
@@ -103,7 +102,7 @@ export const HomePage: MeiosisComponent = () => {
                       e.target &&
                       e.target.result &&
                       (JSON.parse(e.target.result.toString()) as DataSet);
-                    result && result.version && saveModel(result);
+                    result && typeof result.version !== 'undefined' && saveModel(result);
                   };
                   const data = files && files.item(0);
                   data && reader.readAsText(data);
@@ -185,7 +184,7 @@ export const HomePage: MeiosisComponent = () => {
               label: 'Yes',
               iconName: 'delete',
               onclick: () => {
-                // saveModel(defaultCapabilityModel);
+                saveModel(emptyDataSet());
                 dashboardSvc.switchTo(Dashboards.PREPARATION);
               },
             },

@@ -1,5 +1,11 @@
 import { padLeft } from 'mithril-materialized';
 
+const supRegex = /\^([^_ ]+)(_|$|\s)/g;
+const subRegex = /\_([^\^ ]+)(\^|$|\s)/g;
+
+export const subSup = (s: string) =>
+  s ? s.replace(supRegex, `<sup>$1</sup>`).replace(subRegex, `<sub>$1</sub>`) : s;
+
 /**
  * Create a GUID
  * @see https://stackoverflow.com/a/2117523/319711

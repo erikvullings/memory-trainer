@@ -2,7 +2,7 @@ import m, { RouteDefs } from 'mithril';
 import { Dashboards, IDashboard } from '../models';
 import { actions, states } from './meiosis';
 import { Layout } from '../components/layout';
-import { AboutPage, HomePage, TaxonomyPage, LearningPage } from '../components';
+import { AboutPage, HomePage, AllWordsPage, LearningPage, PrepareDataPage } from '../components';
 
 class RoutingService {
   private dashboards!: ReadonlyArray<IDashboard>;
@@ -90,18 +90,26 @@ export const dashboardSvc: RoutingService = new RoutingService([
   {
     id: Dashboards.TRAIN,
     title: 'Overview',
-    icon: 'apps',
+    icon: 'scoreboard',
     route: '/overview',
     visible: true,
     component: LearningPage,
   },
   {
-    id: Dashboards.TAXONOMY,
+    id: Dashboards.PREPARATION,
+    title: 'Create definitions',
+    icon: 'edit',
+    route: '/create',
+    visible: true,
+    component: PrepareDataPage,
+  },
+  {
+    id: Dashboards.ALL_WORDS,
     title: 'TAXONOMY',
     icon: 'book',
     route: '/taxonomy',
     visible: true,
-    component: TaxonomyPage,
+    component: AllWordsPage,
   },
   {
     id: Dashboards.ABOUT,

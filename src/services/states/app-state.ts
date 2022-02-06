@@ -1,17 +1,19 @@
 import Stream from 'mithril/stream';
 import { dashboardSvc, ModelUpdateFunction } from '..';
 import { Dashboards } from '../../models';
-import { DataSet } from '../../models/data-set';
+import { DataSet, emptyDataSet } from '../../models/data-set';
 import { IAppModel, UpdateStream } from '../meiosis';
 /** Application state */
 
-const dsModelKey = 'catModel';
+const dsModelKey = 'wordModel';
 
 export interface IAppStateModel {
   app: {
     apiService: string;
     page?: Dashboards;
     dsModel: DataSet;
+    correctIdxs: Set<number>;
+    wrongIdxs: Set<number>;
   };
 }
 
@@ -29,6 +31,8 @@ export interface IAppStateActions {
     query?: { [key: string]: string | number | undefined }
   ) => void;
   saveModel: (ds: DataSet) => void;
+  updateScore: (idx: number, isCorrect: boolean) => void;
+  resetScore: () => void;
 }
 
 export interface IAppState {
@@ -38,8 +42,8 @@ export interface IAppState {
 
 // console.log(`API server: ${process.env.SERVER}`);
 
-const ds = localStorage.getItem(dsModelKey) || '{}';
-const dsModel = JSON.parse(ds) as DataSet;
+const ds = localStorage.getItem(dsModelKey);
+const dsModel = ds ? JSON.parse(ds) : emptyDataSet();
 // TODO: DURING DEV
 // catModel.form = defaultCapabilityModel.form;
 // catModel.settings = defaultCapabilityModel.settings;
@@ -51,9 +55,11 @@ export const appStateMgmt = {
       /** During development, use this URL to access the server. */
       apiService: process.env.SERVER || window.location.origin,
       dsModel,
+      correctIdxs: new Set(),
+      wrongIdxs: new Set(),
     },
   },
-  actions: (update, _states) => {
+  actions: (update, states) => {
     return {
       setPage: (page: Dashboards) => update({ app: { page } }),
       update: (model: Partial<ModelUpdateFunction>) => update(model),
@@ -62,9 +68,24 @@ export const appStateMgmt = {
         update({ app: { page } });
       },
       createRoute: (page, params) => dashboardSvc && dashboardSvc.route(page, params),
-      saveModel: (cat) => {
-        localStorage.setItem(dsModelKey, JSON.stringify(cat));
-        update({ app: { catModel: () => cat } });
+      saveModel: (dsModel) => {
+        localStorage.setItem(dsModelKey, JSON.stringify(dsModel));
+        update({ app: { dsModel: () => dsModel } });
+      },
+      updateScore: (idx: number, isCorrect: boolean) => {
+        const state = states();
+        if (isCorrect) {
+          const { correctIdxs } = state.app;
+          correctIdxs.add(idx);
+          update({ app: { correctIdxs } });
+        } else {
+          const { wrongIdxs } = state.app;
+          wrongIdxs.add(idx);
+          update({ app: { wrongIdxs } });
+        }
+      },
+      resetScore: () => {
+        update({ app: { correctIdxs: () => new Set(), wrongIdxs: () => new Set() } });
       },
     };
   },
