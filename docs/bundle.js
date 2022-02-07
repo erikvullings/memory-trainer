@@ -15766,7 +15766,7 @@ var Layout = function () { return ({
                         style: 'margin-top: 5px; margin-left: -5px;',
                     }),
                     (0, mithril_1.default)('div', {
-                        style: 'margin-top: 0px; position: absolute; top: 10px; left: 60px; width: 200px;',
+                        style: 'margin-top: 0px; position: absolute; top: 10px; left: 60px; width: 240px;',
                     }, (0, mithril_1.default)('h4.center.show-on-med-and-up.black-text', { style: 'text-align: left; margin: 0;' }, 'Memory Trainer')),
                 ]),
                 (0, mithril_1.default)(
@@ -15822,6 +15822,7 @@ var models_1 = __webpack_require__(7469);
 var utils_1 = __webpack_require__(7982);
 // import { TextInputWithClear } from './ui';
 var LearningPage = function () {
+    var SMALL_CARD_HEIGHT = 300; // specified in CSS
     var cardIdxs;
     var curIdx = 0;
     var replayAll = function (items, resetScore) {
@@ -15850,72 +15851,89 @@ var LearningPage = function () {
             // if (curIdx >= items.length) curIdx = 0;
             var _e = typeof curIdx !== 'undefined' ? items[curIdx] : {}, _f = _e.a, a = _f === void 0 ? '' : _f, _g = _e.b, b = _g === void 0 ? '' : _g;
             var _h = [a, b], from = _h[0], to = _h[1];
-            var score = Math.round((100 * correctIdxs.size) / items.length);
+            var remaining = cardIdxs ? cardIdxs.length : 0;
+            var total = remaining + correctIdxs.size + wrongIdxs.size;
+            var score = total > 0 ? Math.round((100 * correctIdxs.size) / total) : 0;
+            var progress = total ? Math.round((100 * (total - remaining)) / total) : 0;
+            var top = (progress * SMALL_CARD_HEIGHT) / 100;
+            console.log({ remaining: remaining, total: total, score: score, progress: progress, top: top });
             return (0, mithril_1.default)('.learn', [
-                (0, mithril_1.default)('.row', (0, mithril_1.default)('.col.s8.offset-s2', typeof curIdx !== 'undefined'
-                    ? (0, mithril_1.default)('.card.small', { key: curIdx }, [
-                        (0, mithril_1.default)('.card-content', [
-                            (0, mithril_1.default)('span.card-title.activator', [
-                                mithril_1.default.trust((0, mithril_ui_form_1.render)((0, utils_1.subSup)(from), true)),
-                                (0, mithril_1.default)(mithril_materialized_1.Icon, { iconName: 'more_vert', className: 'right' }),
+                (0, mithril_1.default)('.row', [
+                    (0, mithril_1.default)('.col.s2', (0, mithril_1.default)('.card.small', (0, mithril_1.default)('.card-content', (0, mithril_1.default)('.remaining-cards', { style: "top: ".concat(top, "px") }, [
+                        (0, mithril_1.default)('p.center-align.progress-view', mithril_1.default.trust("Progress<br>".concat(progress, "%"))),
+                    ])))),
+                    (0, mithril_1.default)('.col.s8', [
+                        typeof curIdx !== 'undefined'
+                            ? (0, mithril_1.default)('.card.small', { key: curIdx }, [
+                                (0, mithril_1.default)('.card-content', [
+                                    (0, mithril_1.default)('span.card-title.activator', [
+                                        mithril_1.default.trust((0, mithril_ui_form_1.render)((0, utils_1.subSup)(from), true)),
+                                        (0, mithril_1.default)(mithril_materialized_1.Icon, { iconName: 'more_vert', className: 'right' }),
+                                    ]),
+                                    (0, mithril_1.default)('p.activator', { style: 'height: 200px; cursor: pointer' }),
+                                ]),
+                                (0, mithril_1.default)('.card-reveal', [
+                                    (0, mithril_1.default)('span.card-title', [
+                                        mithril_1.default.trust((0, mithril_ui_form_1.render)((0, utils_1.subSup)(from), true)),
+                                        (0, mithril_1.default)(mithril_materialized_1.Icon, { iconName: 'close', className: 'right' }),
+                                    ]),
+                                    (0, mithril_1.default)('p', mithril_1.default.trust((0, mithril_ui_form_1.render)((0, utils_1.subSup)(to), true))),
+                                    (0, mithril_1.default)('.card-action', [
+                                        (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
+                                            label: 'OK',
+                                            iconName: 'check',
+                                            onclick: function () { return nextCard(true); },
+                                        }),
+                                        (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
+                                            label: 'WRONG',
+                                            iconName: 'clear',
+                                            onclick: function () { return nextCard(false); },
+                                        }),
+                                    ]),
+                                ]),
+                            ])
+                            : (0, mithril_1.default)('.card.small', { key: -1 }, [
+                                (0, mithril_1.default)('.card-content', [
+                                    (0, mithril_1.default)('span.card-title', 'Results'),
+                                    (0, mithril_1.default)('.row', [
+                                        (0, mithril_1.default)('.col.s6', "CORRECT ".concat(correctIdxs.size)),
+                                        (0, mithril_1.default)('.col.s6', "WRONG ".concat(wrongIdxs.size)),
+                                        (0, mithril_1.default)('.col.s12', (0, mithril_1.default)('p.center-align.flow-text', "".concat(score, "%"))),
+                                    ]),
+                                ]),
+                                (0, mithril_1.default)('.card-action', [
+                                    (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
+                                        label: 'Replay all',
+                                        iconName: 'replay',
+                                        onclick: function () {
+                                            replayAll(items, resetScore);
+                                        },
+                                    }),
+                                    (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
+                                        label: 'wrong',
+                                        iconName: 'playlist_remove',
+                                        disabled: wrongIdxs.size === 0,
+                                        onclick: function () {
+                                            replayAll(Array.from(wrongIdxs.values()), resetScore);
+                                        },
+                                    }),
+                                    (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
+                                        label: 'correct',
+                                        iconName: 'playlist_add_check',
+                                        disabled: correctIdxs.size === 0,
+                                        onclick: function () {
+                                            replayAll(Array.from(correctIdxs.values()), resetScore);
+                                        },
+                                    }),
+                                ]),
                             ]),
-                            (0, mithril_1.default)('p.activator', { style: 'height: 200px; cursor: pointer' }),
-                        ]),
-                        (0, mithril_1.default)('.card-reveal', [
-                            (0, mithril_1.default)('span.card-title', [
-                                mithril_1.default.trust((0, mithril_ui_form_1.render)((0, utils_1.subSup)(from), true)),
-                                (0, mithril_1.default)(mithril_materialized_1.Icon, { iconName: 'close', className: 'right' }),
-                            ]),
-                            (0, mithril_1.default)('p', mithril_1.default.trust((0, mithril_ui_form_1.render)((0, utils_1.subSup)(to), true))),
-                            (0, mithril_1.default)('.card-action', [
-                                (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
-                                    label: 'OK',
-                                    iconName: 'check',
-                                    onclick: function () { return nextCard(true); },
-                                }),
-                                (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
-                                    label: 'WRONG',
-                                    iconName: 'clear',
-                                    onclick: function () { return nextCard(false); },
-                                }),
-                            ]),
-                        ]),
-                    ])
-                    : (0, mithril_1.default)('.card.small', { key: -1 }, [
-                        (0, mithril_1.default)('.card-content', [
-                            (0, mithril_1.default)('span.card-title', 'Results'),
-                            (0, mithril_1.default)('.row', [
-                                (0, mithril_1.default)('.col.s6', "CORRECT ".concat(correctIdxs.size)),
-                                (0, mithril_1.default)('.col.s6', "WRONG ".concat(wrongIdxs.size)),
-                                (0, mithril_1.default)('.col.s12', (0, mithril_1.default)('p.center-align.flow-text', "".concat(score, "%"))),
-                            ]),
-                        ]),
-                        (0, mithril_1.default)('.card-action', [
-                            (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
-                                label: 'Replay all',
-                                iconName: 'replay',
-                                onclick: function () {
-                                    replayAll(items, resetScore);
-                                },
-                            }),
-                            (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
-                                label: 'wrong',
-                                iconName: 'playlist_remove',
-                                disabled: wrongIdxs.size === 0,
-                                onclick: function () {
-                                    replayAll(Array.from(wrongIdxs.values()), resetScore);
-                                },
-                            }),
-                            (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
-                                label: 'correct',
-                                iconName: 'playlist_add_check',
-                                disabled: correctIdxs.size === 0,
-                                onclick: function () {
-                                    replayAll(Array.from(correctIdxs.values()), resetScore);
-                                },
-                            }),
-                        ]),
+                    ]),
+                    (0, mithril_1.default)('.col.s2', (0, mithril_1.default)('.card.small', (0, mithril_1.default)('#score-results.card-content', [
+                        (0, mithril_1.default)('.progress-circle.blue.white-text', "".concat(score, " %")),
+                        (0, mithril_1.default)('.progress-circle.green.white-text', "".concat(correctIdxs.size, " \u2714")),
+                        (0, mithril_1.default)('.progress-circle.red.white-text', "".concat(wrongIdxs.size, " X")),
                     ]))),
+                ]),
             ]);
         },
     };
