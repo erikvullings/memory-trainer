@@ -63,20 +63,20 @@ export const LearningPage: MeiosisComponent = () => {
       return m('.learn', [
         m('.row', [
           m(
-            '.col.s2',
+            '.col.s12.m2',
             m(
-              '.card.small',
+              '#progress-result.card.small',
               m(
-                '.card-content',
+                '.card-content.no-select',
                 m('.remaining-cards', { style: `top: ${top}px` }, [
                   m('p.center-align.progress-view', m.trust(`Progress<br>${progress}%`)),
                 ])
               )
             )
           ),
-          m('.col.s8', [
+          m('.col.s12.m8', [
             typeof curIdx !== 'undefined'
-              ? m('.card.small', { key: curIdx }, [
+              ? m('.card.small.no-select', { key: curIdx }, [
                   m('.card-content', [
                     m('span.card-title.activator', [
                       m.trust(render(subSup(from), true)),
@@ -94,11 +94,13 @@ export const LearningPage: MeiosisComponent = () => {
                       m(FlatButton, {
                         label: 'OK',
                         iconName: 'check',
+                        className: 'green-text darken-3',
                         onclick: () => nextCard(true),
                       }),
                       m(FlatButton, {
                         label: 'WRONG',
                         iconName: 'clear',
+                        className: 'red-text darken-4',
                         onclick: () => nextCard(false),
                       }),
                     ]),
@@ -141,10 +143,10 @@ export const LearningPage: MeiosisComponent = () => {
                 ]),
           ]),
           m(
-            '.col.s2',
+            '.col.s12.m2',
             m(
-              '.card.small',
-              m('#score-results.card-content', [
+              '#score-results.card.small.no-select',
+              m('.card-content', [
                 m('.progress-circle.blue.white-text', `${score} %`),
                 m('.progress-circle.green.white-text', `${correctIdxs.size} ✔`),
                 m('.progress-circle.red.white-text', `${wrongIdxs.size} X`),
