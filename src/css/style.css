@@ -581,6 +581,10 @@ ul.projects > li > span.project-id {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.from-to-definition {
+  margin-bottom: 0;
+}
+
 @media screen and (orientation: portrait) {
   #progress-result,
   #score-results {

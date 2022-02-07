@@ -28,6 +28,8 @@ export const PrepareDataPage: MeiosisComponent = () => ({
                 id: 'items',
                 label: 'Definitions',
                 repeat: true,
+                repeatItemClass: 'from-to-definition',
+                onNewItem: () => ({ reversible: true }),
                 type: [
                   {
                     id: 'a',
