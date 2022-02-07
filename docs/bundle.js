@@ -15825,20 +15825,28 @@ var LearningPage = function () {
     var SMALL_CARD_HEIGHT = 300; // specified in CSS
     var cardIdxs;
     var curIdx = 0;
-    var replayAll = function (items, resetScore) {
-        cardIdxs = (0, utils_1.shuffle)(items.map(function (_, i) { return i; }));
+    var replayAll = function (items, resetScore, reverseDirection) {
+        if (reverseDirection === void 0) { reverseDirection = false; }
+        cardIdxs = (0, utils_1.shuffle)(items
+            .map(function (card, i) {
+            return typeof card === 'number'
+                ? { i: card, reversible: true }
+                : { i: i, reversible: card.reversible };
+        })
+            .filter(function (i) { return !reverseDirection || i.reversible; })
+            .map(function (card) { return card.i; }));
         curIdx = cardIdxs.shift();
         resetScore();
     };
     return {
         oninit: function (_a) {
-            var _b = _a.attrs, dsModel = _b.state.app.dsModel, _c = _b.actions, setPage = _c.setPage, resetScore = _c.resetScore;
+            var _b = _a.attrs, _c = _b.state.app, dsModel = _c.dsModel, reverseDirection = _c.reverseDirection, _d = _b.actions, setPage = _d.setPage, resetScore = _d.resetScore;
             var items = dsModel.items;
-            replayAll(items, resetScore);
+            replayAll(items, resetScore, reverseDirection);
             setPage(models_1.Dashboards.TRAIN);
         },
         view: function (_a) {
-            var _b = _a.attrs, _c = _b.state.app, dsModel = _c.dsModel, correctIdxs = _c.correctIdxs, wrongIdxs = _c.wrongIdxs, _d = _b.actions, changePage = _d.changePage, updateScore = _d.updateScore, resetScore = _d.resetScore;
+            var _b = _a.attrs, _c = _b.state.app, dsModel = _c.dsModel, correctIdxs = _c.correctIdxs, wrongIdxs = _c.wrongIdxs, reverseDirection = _c.reverseDirection, _d = _b.actions, changePage = _d.changePage, updateScore = _d.updateScore, resetScore = _d.resetScore, setDirection = _d.setDirection;
             var items = dsModel.items;
             if (!items) {
                 return changePage(models_1.Dashboards.PREPARATION);
@@ -15850,17 +15858,16 @@ var LearningPage = function () {
             };
             // if (curIdx >= items.length) curIdx = 0;
             var _e = typeof curIdx !== 'undefined' ? items[curIdx] : {}, _f = _e.a, a = _f === void 0 ? '' : _f, _g = _e.b, b = _g === void 0 ? '' : _g;
-            var _h = [a, b], from = _h[0], to = _h[1];
-            var remaining = cardIdxs ? cardIdxs.length : 0;
+            var _h = reverseDirection ? [b, a] : [a, b], from = _h[0], to = _h[1];
+            var remaining = cardIdxs ? cardIdxs.length + 1 : 0; // add 1 for the current item
             var total = remaining + correctIdxs.size + wrongIdxs.size;
             var score = total > 0 ? Math.round((100 * correctIdxs.size) / total) : 0;
             var progress = total ? Math.round((100 * (total - remaining)) / total) : 0;
             var top = (progress * SMALL_CARD_HEIGHT) / 100;
-            console.log({ remaining: remaining, total: total, score: score, progress: progress, top: top });
             return (0, mithril_1.default)('.learn', [
                 (0, mithril_1.default)('.row', [
                     (0, mithril_1.default)('.col.s12.m2', (0, mithril_1.default)('#progress-result.card.small', (0, mithril_1.default)('.card-content.no-select', (0, mithril_1.default)('.remaining-cards', { style: "top: ".concat(top, "px") }, [
-                        (0, mithril_1.default)('p.center-align.progress-view', mithril_1.default.trust("Progress<br>".concat(progress, "%"))),
+                        (0, mithril_1.default)('p.center-align.progress-view', mithril_1.default.trust("Progress<br>".concat(total - remaining, "/").concat(total))),
                     ])))),
                     (0, mithril_1.default)('.col.s12.m8', [
                         typeof curIdx !== 'undefined'
@@ -15908,7 +15915,7 @@ var LearningPage = function () {
                                         label: 'Replay all',
                                         iconName: 'replay',
                                         onclick: function () {
-                                            replayAll(items, resetScore);
+                                            replayAll(items, resetScore, reverseDirection);
                                         },
                                     }),
                                     (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
@@ -15935,6 +15942,14 @@ var LearningPage = function () {
                         (0, mithril_1.default)('.progress-circle.green.white-text', "".concat(correctIdxs.size, " \u2714")),
                         (0, mithril_1.default)('.progress-circle.red.white-text', "".concat(wrongIdxs.size, " X")),
                     ]))),
+                    (0, mithril_1.default)('.col.s12', (0, mithril_1.default)(mithril_materialized_1.Switch, {
+                        label: 'Reverse direction',
+                        initialValue: reverseDirection,
+                        onchange: function (v) {
+                            setDirection(v);
+                            replayAll(items, resetScore, v);
+                        },
+                    })),
                 ]),
             ]);
         },
@@ -15972,7 +15987,6 @@ var PrepareDataPage = function () { return ({
                         id: 'items',
                         label: 'Definitions',
                         repeat: true,
-                        pageSize: 8,
                         type: [
                             {
                                 id: 'a',
@@ -16701,6 +16715,7 @@ exports.appStateMgmt = {
             dsModel: dsModel,
             correctIdxs: new Set(),
             wrongIdxs: new Set(),
+            reverseDirection: false,
         },
     },
     actions: function (update, states) {
@@ -16731,6 +16746,9 @@ exports.appStateMgmt = {
             },
             resetScore: function () {
                 update({ app: { correctIdxs: function () { return new Set(); }, wrongIdxs: function () { return new Set(); } } });
+            },
+            setDirection: function (direction) {
+                update({ app: { reverseDirection: direction } });
             },
         };
     },
