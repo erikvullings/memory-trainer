@@ -581,7 +581,7 @@ ul.projects > li > span.project-id {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
-@media only screen and (max-width: 400px) {
+@media screen and (orientation: portrait) {
   #progress-result,
   #score-results {
     height: 110px;
