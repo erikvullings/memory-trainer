@@ -1,7 +1,8 @@
 import m from 'mithril';
-import { FlatButton, Icon } from 'mithril-materialized';
+import { FlatButton, Icon, Switch } from 'mithril-materialized';
 import { render } from 'mithril-ui-form';
 import { Dashboards } from '../models';
+import { DataItem } from '../models/data-set';
 import { MeiosisComponent } from '../services';
 import { shuffle, subSup } from '../utils';
 // import { TextInputWithClear } from './ui';
@@ -12,8 +13,21 @@ export const LearningPage: MeiosisComponent = () => {
   let cardIdxs: number[] | undefined;
   let curIdx: number | undefined = 0;
 
-  const replayAll = (items: unknown[], resetScore: () => void) => {
-    cardIdxs = shuffle(items.map((_, i) => i));
+  const replayAll = (
+    items: Array<number | DataItem>,
+    resetScore: () => void,
+    reverseDirection = false
+  ) => {
+    cardIdxs = shuffle(
+      items
+        .map((card, i) =>
+          typeof card === 'number'
+            ? { i: card, reversible: true }
+            : { i, reversible: card.reversible }
+        )
+        .filter((i) => !reverseDirection || i.reversible)
+        .map((card) => card.i)
+    );
     curIdx = cardIdxs.shift();
     resetScore();
   };
@@ -22,27 +36,28 @@ export const LearningPage: MeiosisComponent = () => {
     oninit: ({
       attrs: {
         state: {
-          app: { dsModel },
+          app: { dsModel, reverseDirection },
         },
         actions: { setPage, resetScore },
       },
     }) => {
       const { items } = dsModel;
-      replayAll(items, resetScore);
+      replayAll(items, resetScore, reverseDirection);
       setPage(Dashboards.TRAIN);
     },
     view: ({
       attrs: {
         state: {
-          app: { dsModel, correctIdxs, wrongIdxs },
+          app: { dsModel, correctIdxs, wrongIdxs, reverseDirection },
         },
-        actions: { changePage, updateScore, resetScore },
+        actions: { changePage, updateScore, resetScore, setDirection },
       },
     }) => {
       const { items } = dsModel;
       if (!items) {
         return changePage(Dashboards.PREPARATION);
       }
+
       const nextCard = (isOK: boolean) => {
         const idx = curIdx as number;
         curIdx = cardIdxs?.shift();
@@ -51,14 +66,13 @@ export const LearningPage: MeiosisComponent = () => {
 
       // if (curIdx >= items.length) curIdx = 0;
       const { a = '', b = '' } = typeof curIdx !== 'undefined' ? items[curIdx] : {};
-      const [from, to] = [a, b];
+      const [from, to] = reverseDirection ? [b, a] : [a, b];
 
-      const remaining = cardIdxs ? cardIdxs.length : 0;
+      const remaining = cardIdxs ? cardIdxs.length + 1 : 0; // add 1 for the current item
       const total = remaining + correctIdxs.size + wrongIdxs.size;
       const score = total > 0 ? Math.round((100 * correctIdxs.size) / total) : 0;
       const progress = total ? Math.round((100 * (total - remaining)) / total) : 0;
       const top = (progress * SMALL_CARD_HEIGHT) / 100;
-      console.log({ remaining, total, score, progress, top });
 
       return m('.learn', [
         m('.row', [
@@ -69,7 +83,10 @@ export const LearningPage: MeiosisComponent = () => {
               m(
                 '.card-content.no-select',
                 m('.remaining-cards', { style: `top: ${top}px` }, [
-                  m('p.center-align.progress-view', m.trust(`Progress<br>${progress}%`)),
+                  m(
+                    'p.center-align.progress-view',
+                    m.trust(`Progress<br>${total - remaining}/${total}`)
+                  ),
                 ])
               )
             )
@@ -120,7 +137,7 @@ export const LearningPage: MeiosisComponent = () => {
                       label: 'Replay all',
                       iconName: 'replay',
                       onclick: () => {
-                        replayAll(items, resetScore);
+                        replayAll(items, resetScore, reverseDirection);
                       },
                     }),
                     m(FlatButton, {
@@ -152,6 +169,17 @@ export const LearningPage: MeiosisComponent = () => {
                 m('.progress-circle.red.white-text', `${wrongIdxs.size} X`),
               ])
             )
+          ),
+          m(
+            '.col.s12',
+            m(Switch, {
+              label: 'Reverse direction',
+              initialValue: reverseDirection,
+              onchange: (v) => {
+                setDirection(v);
+                replayAll(items, resetScore, v);
+              },
+            })
           ),
         ]),
       ]);

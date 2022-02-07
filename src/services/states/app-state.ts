@@ -14,6 +14,8 @@ export interface IAppStateModel {
     dsModel: DataSet;
     correctIdxs: Set<number>;
     wrongIdxs: Set<number>;
+    /** Ask from A to B or in the other direction */
+    reverseDirection: boolean;
   };
 }
 
@@ -33,6 +35,7 @@ export interface IAppStateActions {
   saveModel: (ds: DataSet) => void;
   updateScore: (idx: number, isCorrect: boolean) => void;
   resetScore: () => void;
+  setDirection: (direction: boolean) => void;
 }
 
 export interface IAppState {
@@ -57,6 +60,7 @@ export const appStateMgmt = {
       dsModel,
       correctIdxs: new Set(),
       wrongIdxs: new Set(),
+      reverseDirection: false,
     },
   },
   actions: (update, states) => {
@@ -86,6 +90,9 @@ export const appStateMgmt = {
       },
       resetScore: () => {
         update({ app: { correctIdxs: () => new Set(), wrongIdxs: () => new Set() } });
+      },
+      setDirection: (direction: boolean) => {
+        update({ app: { reverseDirection: direction } });
       },
     };
   },
