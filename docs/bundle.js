@@ -15859,12 +15859,12 @@ var LearningPage = function () {
             console.log({ remaining: remaining, total: total, score: score, progress: progress, top: top });
             return (0, mithril_1.default)('.learn', [
                 (0, mithril_1.default)('.row', [
-                    (0, mithril_1.default)('.col.s2', (0, mithril_1.default)('.card.small', (0, mithril_1.default)('.card-content', (0, mithril_1.default)('.remaining-cards', { style: "top: ".concat(top, "px") }, [
+                    (0, mithril_1.default)('.col.s12.m2', (0, mithril_1.default)('#progress-result.card.small', (0, mithril_1.default)('.card-content.no-select', (0, mithril_1.default)('.remaining-cards', { style: "top: ".concat(top, "px") }, [
                         (0, mithril_1.default)('p.center-align.progress-view', mithril_1.default.trust("Progress<br>".concat(progress, "%"))),
                     ])))),
-                    (0, mithril_1.default)('.col.s8', [
+                    (0, mithril_1.default)('.col.s12.m8', [
                         typeof curIdx !== 'undefined'
-                            ? (0, mithril_1.default)('.card.small', { key: curIdx }, [
+                            ? (0, mithril_1.default)('.card.small.no-select', { key: curIdx }, [
                                 (0, mithril_1.default)('.card-content', [
                                     (0, mithril_1.default)('span.card-title.activator', [
                                         mithril_1.default.trust((0, mithril_ui_form_1.render)((0, utils_1.subSup)(from), true)),
@@ -15882,11 +15882,13 @@ var LearningPage = function () {
                                         (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
                                             label: 'OK',
                                             iconName: 'check',
+                                            className: 'green-text darken-3',
                                             onclick: function () { return nextCard(true); },
                                         }),
                                         (0, mithril_1.default)(mithril_materialized_1.FlatButton, {
                                             label: 'WRONG',
                                             iconName: 'clear',
+                                            className: 'red-text darken-4',
                                             onclick: function () { return nextCard(false); },
                                         }),
                                     ]),
@@ -15928,7 +15930,7 @@ var LearningPage = function () {
                                 ]),
                             ]),
                     ]),
-                    (0, mithril_1.default)('.col.s2', (0, mithril_1.default)('.card.small', (0, mithril_1.default)('#score-results.card-content', [
+                    (0, mithril_1.default)('.col.s12.m2', (0, mithril_1.default)('#score-results.card.small.no-select', (0, mithril_1.default)('.card-content', [
                         (0, mithril_1.default)('.progress-circle.blue.white-text', "".concat(score, " %")),
                         (0, mithril_1.default)('.progress-circle.green.white-text', "".concat(correctIdxs.size, " \u2714")),
                         (0, mithril_1.default)('.progress-circle.red.white-text', "".concat(wrongIdxs.size, " X")),
