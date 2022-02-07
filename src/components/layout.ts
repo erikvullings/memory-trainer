@@ -32,7 +32,7 @@ export const Layout: MeiosisComponent = () => ({
                 'div',
                 {
                   style:
-                    'margin-top: 0px; position: absolute; top: 10px; left: 60px; width: 200px;',
+                    'margin-top: 0px; position: absolute; top: 10px; left: 60px; width: 240px;',
                 },
                 m(
                   'h4.center.show-on-med-and-up.black-text',

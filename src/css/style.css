@@ -540,3 +540,33 @@ ul.projects > li > span.project-id {
 .assessment-page .row {
   margin-bottom: 0;
 }
+
+.remaining-cards {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: lightgray;
+}
+
+.progress-view {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+}
+
+#score-results {
+  padding: 0;
+}
+
+.progress-circle {
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  /* font-size: 50px; */
+  text-align: center;
+  margin: 15px auto;
+}

@@ -7,6 +7,8 @@ import { shuffle, subSup } from '../utils';
 // import { TextInputWithClear } from './ui';
 
 export const LearningPage: MeiosisComponent = () => {
+  const SMALL_CARD_HEIGHT = 300; // specified in CSS
+
   let cardIdxs: number[] | undefined;
   let curIdx: number | undefined = 0;
 
@@ -51,13 +53,28 @@ export const LearningPage: MeiosisComponent = () => {
       const { a = '', b = '' } = typeof curIdx !== 'undefined' ? items[curIdx] : {};
       const [from, to] = [a, b];
 
-      const score = Math.round((100 * correctIdxs.size) / items.length);
+      const remaining = cardIdxs ? cardIdxs.length : 0;
+      const total = remaining + correctIdxs.size + wrongIdxs.size;
+      const score = total > 0 ? Math.round((100 * correctIdxs.size) / total) : 0;
+      const progress = total ? Math.round((100 * (total - remaining)) / total) : 0;
+      const top = (progress * SMALL_CARD_HEIGHT) / 100;
+      console.log({ remaining, total, score, progress, top });
 
       return m('.learn', [
-        m(
-          '.row',
+        m('.row', [
           m(
-            '.col.s8.offset-s2',
+            '.col.s2',
+            m(
+              '.card.small',
+              m(
+                '.card-content',
+                m('.remaining-cards', { style: `top: ${top}px` }, [
+                  m('p.center-align.progress-view', m.trust(`Progress<br>${progress}%`)),
+                ])
+              )
+            )
+          ),
+          m('.col.s8', [
             typeof curIdx !== 'undefined'
               ? m('.card.small', { key: curIdx }, [
                   m('.card-content', [
@@ -121,9 +138,20 @@ export const LearningPage: MeiosisComponent = () => {
                       },
                     }),
                   ]),
-                ])
-          )
-        ),
+                ]),
+          ]),
+          m(
+            '.col.s2',
+            m(
+              '.card.small',
+              m('#score-results.card-content', [
+                m('.progress-circle.blue.white-text', `${score} %`),
+                m('.progress-circle.green.white-text', `${correctIdxs.size} ✔`),
+                m('.progress-circle.red.white-text', `${wrongIdxs.size} X`),
+              ])
+            )
+          ),
+        ]),
       ]);
     },
   };
