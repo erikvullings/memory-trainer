@@ -28,7 +28,6 @@ export const PrepareDataPage: MeiosisComponent = () => ({
                 id: 'items',
                 label: 'Definitions',
                 repeat: true,
-                pageSize: 8,
                 type: [
                   {
                     id: 'a',
