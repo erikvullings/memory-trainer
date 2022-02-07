@@ -15,9 +15,9 @@ specifiers:
   mini-css-extract-plugin: ^2.5.3
   mithril: ^2.0.4
   mithril-materialized: ^0.19.4
-  mithril-ui-form: ^1.4.4
-  mithril-ui-form-plugin: ^0.3.3
-  mithril-ui-form-rating-plugin: ^0.4.0
+  mithril-ui-form: ^1.4.5
+  mithril-ui-form-plugin: ^0.3.4
+  mithril-ui-form-rating-plugin: ^0.4.1
   rimraf: ^3.0.2
   style-loader: ^3.3.1
   ts-loader: ^9.2.6
@@ -32,9 +32,9 @@ dependencies:
   materialize-css: 1.0.0
   mithril: 2.0.4
   mithril-materialized: 0.19.4
-  mithril-ui-form: 1.4.4
-  mithril-ui-form-plugin: 0.3.3
-  mithril-ui-form-rating-plugin: 0.4.0_mithril@2.0.4
+  mithril-ui-form: 1.4.5
+  mithril-ui-form-plugin: 0.3.4
+  mithril-ui-form-rating-plugin: 0.4.1_mithril@2.0.4
 
 devDependencies:
   '@types/lz-string': 1.3.34
@@ -1885,24 +1885,24 @@ packages:
       mithril: 2.0.4
     dev: false
 
-  /mithril-ui-form-plugin/0.3.3:
-    resolution: {integrity: sha512-8gO90YeGs7B+akTcoUpVRl3YHkQb6vhZ71E9igCjUqd83DJHO4Ey0xFcNCOjZ3gpSkX8h+J6RcwqxFBJrOg3ZA==}
+  /mithril-ui-form-plugin/0.3.4:
+    resolution: {integrity: sha512-0FaSX+jocqoc8M/lzsv51Uk3iEFS/ag+1cvNpshve1uDSNfnlOKeXcQm3yHjH9a2qEwszhStHoLGo82Yd4/DvA==}
     dev: false
 
-  /mithril-ui-form-rating-plugin/0.4.0_mithril@2.0.4:
-    resolution: {integrity: sha512-/oMF4xOOK2WB3zu0QULcY/30kHvGBh4/6nwJW5rJ6bKsZgfvrVTmpVh5LjpCkdScY/8r5OgUOcQxOJzCIQy9pQ==}
+  /mithril-ui-form-rating-plugin/0.4.1_mithril@2.0.4:
+    resolution: {integrity: sha512-0Ddp/pCxv8729MJJFJZaazg9NesLTT2dpGjjcztHvXGvjC3YUpse05yO6pqFJRviL8hiVl0NYfYLV5pLlOKxxg==}
     peerDependencies:
       mithril: ^2.0.4
     dependencies:
       mithril: 2.0.4
     dev: false
 
-  /mithril-ui-form/1.4.4:
-    resolution: {integrity: sha512-pdHXI5u96krNbyArc1zYNb8vwK4w9ggApxgCvsL++/tWrxXoaPvru6wu+g/si6smRxFjlc4cG+ocrHyRcnDq6w==}
+  /mithril-ui-form/1.4.5:
+    resolution: {integrity: sha512-jF3YgCn92ysKkOdtlTN3kJOeTFCsXyMDv4vE9je6f9ZHgj0/QxsTCmoa1Na8kaDlIvXalID62NOzO+TfAXUVfg==}
     dependencies:
       mithril: 2.0.4
       mithril-materialized: 0.19.4
-      mithril-ui-form-plugin: 0.3.3
+      mithril-ui-form-plugin: 0.3.4
     dev: false
 
   /mithril/2.0.4:
