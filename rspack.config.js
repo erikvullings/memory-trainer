@@ -4,7 +4,7 @@ dotenv.configDotenv();
 
 const devMode = process.env.NODE_ENV === 'development';
 const isProduction = !devMode;
-const outputPath = path.resolve(__dirname, isProduction ? '../server/public' : 'dist');
+const outputPath = path.resolve(__dirname, isProduction ? 'docs' : 'dist');
 const SERVER = process.env.SERVER;
 const publicPath = isProduction ? 'https://erikvullings.github.io/memory-trainer/' : '/';
 
