@@ -94,14 +94,14 @@ export const LearningPage: MeiosisComponent = () => {
           m('.col.s12.m8', [
             typeof curIdx !== 'undefined'
               ? m('.card.small.no-select', { key: curIdx }, [
-                  m('.card-content', [
+                  m('.card-content.center', [
                     m('span.card-title.activator', [
                       m.trust(render(subSup(from), true)),
                       m(Icon, { iconName: 'more_vert', className: 'right' }),
                     ]),
                     m('p.activator', { style: 'height: 200px; cursor: pointer' }),
                   ]),
-                  m('.card-reveal', [
+                  m('.card-reveal.center', [
                     m('span.card-title', [
                       m.trust(render(subSup(from), true)),
                       m(Icon, { iconName: 'close', className: 'right' }),
@@ -110,13 +110,13 @@ export const LearningPage: MeiosisComponent = () => {
                     m('.card-action', [
                       m(FlatButton, {
                         label: 'OK',
-                        iconName: 'check',
+                        iconName: 'thumb_up',
                         className: 'green-text darken-3',
                         onclick: () => nextCard(true),
                       }),
                       m(FlatButton, {
                         label: 'WRONG',
-                        iconName: 'clear',
+                        iconName: 'thumb_down',
                         className: 'red-text darken-4',
                         onclick: () => nextCard(false),
                       }),
